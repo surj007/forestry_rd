@@ -1,0 +1,23 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=dev node ./src/server.js",
+    "prod": "cross-env NODE_ENV=prod node ./src/server.js"
+  },
+  "dependencies": {
+    "@alicloud/sms-sdk": "^1.1.6",
+    "ali-oss": "^6.1.0",
+    "connect-redis": "^3.4.0",
+    "cookie-parser": "~1.4.3",
+    "cross-env": "^5.2.0",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "express-session": "^1.15.6",
+    "http-errors": "~1.6.2",
+    "log4js": "^3.0.6",
+    "mysql": "^2.16.0",
+    "redis": "^2.8.0"
+  }
+}
