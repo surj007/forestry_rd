@@ -11,7 +11,7 @@ function selectWithConditions(tableName, column, format, data, callback) {
 };
 
 function insert(tableName, column, format, data, callback) {
-  db.query(`insert ${tableName} ${column} values ${format}`, data, (err, results, fields) => {
+  db.query(`insert ${tableName} (${column}) values (${format})`, data, (err, results, fields) => {
     callback && callback(err, results)
   });
 };

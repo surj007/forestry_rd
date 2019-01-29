@@ -1,4 +1,4 @@
-create database forestry default character set utf8;;
+create database forestry default character set utf8;
 use forestry;
 
 create table user ( 

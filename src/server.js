@@ -24,3 +24,7 @@ function onError(error) {
       throw error;
   }
 }
+
+process.on('uncaughtException', (err) => {
+  logger.error(err);
+});
