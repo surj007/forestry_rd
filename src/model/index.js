@@ -1,5 +1,5 @@
 function selectWithNoConditions(tableName, column, callback) {
-  db.query(`select ${column} from ${tableName}`, (err, results, fields) => {
+  db.query(`select ${column} from ${tableName}`, [], (err, results, fields) => {
     callback && callback(err, results)
   });
 };

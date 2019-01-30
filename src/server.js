@@ -3,6 +3,7 @@ const app = require('./app');
 
 const httpServer = http.createServer(app).listen(80, () => {
   console.log('http server start, listen 80...');
+  logger.info('http server start, listen 80...');
 });
 httpServer.on('error', onError);
 
