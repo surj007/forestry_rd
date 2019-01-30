@@ -1,10 +1,11 @@
 const express = require('express');
 
-const respond = require('../api/respond');
-const loginService = require('../service/loginService');
-const dto = require('../dto/formatResDto');
+const Respond = require('../api/respond.class');
+const LoginService = require('../service/loginService.class');
 
 const router = express.Router();
+const respond = new Respond();
+const loginService = new LoginService();
 
 router.post('/login', (req, res, next) => {
   respond.isNullRespond(req, res, ['username', 'password'], () => {
@@ -16,15 +17,15 @@ router.post('/login', (req, res, next) => {
           phone: userInfo.phone,
           role: roles
         };
-        res.json(req.session.userInfo);
+        respond.authSuccessRespond(res, req.session.userInfo);
       });
     });
   });
 });
 
-router.post('/logout', (req, res, next) => {
+router.get('/logout', (req, res, next) => {
   req.session.destroy(() => {
-    res.json(dto.resOk('登出成功'));
+    respond.authLogoutRespond(res);
   });
 });
 
