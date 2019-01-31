@@ -1,36 +1,54 @@
 const express = require('express');
 
-const Respond = require('../api/respond.class');
+const AuthDto = require('../dto/authDto.class');
+const CommonDto = require('../dto/commonDto.class');
 const LoginService = require('../service/loginService.class');
+const { isParamNull } = require('../util/index');
 
 const router = express.Router();
-const respond = new Respond();
+const authDto = new AuthDto();
+const commonDto = new CommonDto();
 const loginService = new LoginService();
 
 router.post('/login', async function(req, res, next) {
-  let isNull = respond.isNullRespond(req, res, 'body', ['username', 'password']);
+  let nullParam = isParamNull(req, 'body', ['username', 'password']);
+  
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, result } = await loginService.getUserInfoAndAuth(req.body.username, req.body.password);
 
-  if(!isNull) {
-    let userInfo = await loginService.getUserInfoAndAuth(res, req.body.username, req.body.password);
+    if(err) {
+      res.json(commonDto.dbRespond(err, []));
+    }
 
-    if(userInfo) {
-      let roles = await loginService.getRoleByUserId(res, userInfo.id);
+    if(!result) {
+      res.json(authDto.authFailRespond());
+    }
+    else {
+      let { err, results } = await loginService.getRoleByUserId(result.id);
 
-      req.session.userInfo = {
-        uid: userInfo.id,
-        username: userInfo.username,
-        phone: userInfo.phone,
-        role: roles
-      };
+      if(err) {
+        res.json(commonDto.dbRespond(err, []));
+      }
+      else {
+        req.session.userInfo = {
+          uid: result.id,
+          username: result.username,
+          phone: result.phone,
+          role: results
+        };
 
-      respond.authSuccessRespond(res, req.session.userInfo);
+        res.json(authDto.authSuccessRespond(req.session.userInfo));
+      }
     }
   }
 });
 
 router.get('/logout', (req, res, next) => {
   req.session.destroy(() => {
-    respond.authLogoutRespond(res);
+    res.json(authDto.authLogoutRespond());
   });
 });
 

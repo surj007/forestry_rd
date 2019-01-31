@@ -51,6 +51,6 @@ insert user (username, password) values ('srj', 'bxd8LtRmI2Bf5TyrBrO65ns1FjTWODw
 insert role (name, nameZh) values ('root', '根管理员');
 insert role (name, nameZh) values ('admin', '管理员');
 insert user_role (uid, rid) values (1, 2);
-insert permission (module) values ('/home');
-insert permission (module) values ('/docs');
+insert permission (module) values ('home');
+insert permission (module) values ('docs');
 insert permission_role (pid, rid) values (1, 2);
