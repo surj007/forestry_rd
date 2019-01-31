@@ -1,7 +1,7 @@
-exports.commonRes = (code, msg, data) => {
+exports.commonRes = (code, message, data) => {
   return {
-    code: code,
-    message: msg,
+    code,
+    message,
     data
   }
 };

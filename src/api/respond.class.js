@@ -3,24 +3,26 @@ const constant = require('../util/constant');
 
 class Respond {
   constructor() {}
-  
+
   dbRespond(err, results, res) {
     if(err) {
       res.json(commonRes(constant.CODE_DBERR, 'db err', err));
     }
     else {
-      res.json(dto.resOk(constant.CODE_SUCCESS, 'db ok', results));
+      res.json(commonRes(constant.CODE_SUCCESS, 'db ok', results));
     }
   }
 
-  isNullRespond(req, res, fields, callback) {
+  isNullRespond(req, res, type, fields) {
     for(let i of fields) {
-      if(req.body[i] == undefined) {
+      if(req[type][i] == undefined) {
         res.json(commonRes(constant.CODE_NULLERR, `${i}不能为空`, null));
-        return;
+
+        return true;
       }
     }
-    callback && callback();
+
+    return false;
   }
 
   authFailRespond(res) {

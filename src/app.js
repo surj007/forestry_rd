@@ -29,13 +29,15 @@ app.use(expressSession({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', req.headers.origin);
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.header('Access-Control-Allow-Headers', 'Cache-Control, Content-Type');
-//   res.header('Access-Control-Allow-Credentials', 'true');
-//   next();
-// });
+/*
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Cache-Control, Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+*/
 
 app.use((req, res, next) => {
   let module = req.path.split('/')[1];
