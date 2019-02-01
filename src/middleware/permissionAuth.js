@@ -21,4 +21,4 @@ exports.permissionAuth = async function(req, res, next) {
       res.status(403).json(authDto.authForbiddenRespond());
     }
   }
-}
+};

@@ -1,13 +1,13 @@
-const LoginModel = require('../model/loginModel.class');
+const CommonModel = require('../model/commonModel.class');
 const util = require('../util/index');
 
-const loginModel = new LoginModel();
+const commonModel = new CommonModel();
 
 class LoginService {
   constructor() {}
 
   async getUserInfoAndAuth(username, password) {
-    let { err, results } = await loginModel.findUserInfo(username);
+    let { err, results } = await commonModel.findUserInfo(username);
     
     if(err) {
       return { 
@@ -29,7 +29,7 @@ class LoginService {
   }
   
   async getRoleByUserId(userId) {
-    return await loginModel.findRoleByUserId(userId);
+    return await commonModel.findRoleByUserId(userId);
   }
 }
 

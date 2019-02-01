@@ -3,7 +3,7 @@ const constant = require('../util/constant');
 class CommonDto {
   constructor() {}
 
-  dbRespond(err, results) {
+  dbRespond(err, results, msg = 'db ok') {
     if(err) {
       return {
         code: constant.CODE_DBERR,
@@ -14,7 +14,7 @@ class CommonDto {
     else {
       return {
         code: constant.CODE_SUCCESS,
-        message: 'db ok',
+        message: msg,
         data: results
       };
     }
@@ -32,7 +32,7 @@ class CommonDto {
     return {
       code: constant.CODE_SERVERERR,
       message: err.message,
-      data: error.stack
+      data: err.stack
     }; 
   }
 }

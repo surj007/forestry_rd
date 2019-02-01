@@ -7,8 +7,8 @@ class Model {
     return { err, results };
   }
 
-  async selectWithConditions(tableName, column, format, data) {
-    let { err, results, fields } = await db.query(`select ${column} from ${tableName} where ${format}`, data);
+  async selectWithConditions(tableName, column, conditions, data) {
+    let { err, results, fields } = await db.query(`select ${column} from ${tableName} where ${conditions}`, data);
 
     return { err, results };
   }
@@ -19,8 +19,8 @@ class Model {
     return { err, results };
   }
 
-  async del(tableName, format, data) {
-    let { err, results, fields } = await db.query(`delete from ${tableName} where ${format}`, data);
+  async del(tableName, conditions, data) {
+    let { err, results, fields } = await db.query(`delete from ${tableName} where ${conditions}`, data);
 
     return { err, results };
   }

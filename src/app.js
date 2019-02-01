@@ -6,6 +6,7 @@ const expressSession = require('express-session');
 const redisStore = require('connect-redis')(expressSession);
 
 const { permissionAuth } = require('./middleware/permissionAuth');
+const { setRequestId } = require('./middleware/setRequestId');
 const CommonDto = require('./dto/commonDto.class');
 
 const app = express();
@@ -31,7 +32,8 @@ app.use(expressSession({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(permissionAuth);
+//app.use(permissionAuth);
+app.use(setRequestId);
 
 require('./routes')(app);
 

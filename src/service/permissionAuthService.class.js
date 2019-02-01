@@ -6,13 +6,17 @@ class PermissionAuthService {
   constructor() {}
 
   async permissionAuth(roles, module) {
-    let hasPermissionRoleIds = await permissionAuthModel.getRolesByModule(module);
+    let { err, results } = await permissionAuthModel.getRolesByModule(module);
 
-    // for(let i of roles) {
-    //   if() {
+    for(let i of roles) {
+      for(let j of results) {
+        if(i.id == j.rid) {
+          return true;
+        }
+      }
+    }
 
-    //   }
-    // }
+    return false;
   }
 }
 
