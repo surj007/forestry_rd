@@ -5,7 +5,7 @@ const model = new Model();
 class CommonModel {
   constructor() {}
 
-  async findUserInfo(username) {
+  async findUserInfoByUsername(username) {
     return await model.selectWithConditions('user', '*', 'username = ?', [username]);
   }
 

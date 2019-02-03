@@ -7,7 +7,7 @@ class LoginService {
   constructor() {}
 
   async getUserInfoAndAuth(username, password) {
-    let { err, results } = await commonModel.findUserInfo(username);
+    let { err, results } = await commonModel.findUserInfoByUsername(username);
     
     if(err) {
       return { 

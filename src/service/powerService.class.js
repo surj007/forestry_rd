@@ -8,32 +8,49 @@ const commonModel = new CommonModel();
 class PowerService {
   constructor() {}
 
-  async findUser(username) {
-    return await commonModel.findUserInfo(username);
+  async findUserByUserName(username) {
+    return await commonModel.findUserInfoByUsername(username);
   }
 
   async delUser(id) {
     return await powerModel.delUser(id);
   }
 
-  async findAllUserAndRole() {
-    let userResult = await powerModel.findAllUser();
-
-    if(userResult.err) {
-      return userResult;
-    }
-
-    for(let i of userResult.results) {
-      let roleResult = await commonModel.findRoleByUserId(i.id);
-
-      if(roleResult.err) {
-        return roleResult;
+  async findAllUserWithRole() {
+    let formatResultsObj = {};
+    let formatResultsAry = [];
+    let { err, results } = await powerModel.findAllUserAndRole();
+    
+    for(let i of results) {
+      if(formatResultsObj[i.uid]) {
+        formatResultsObj[i.uid].role.push({
+          id: i.id,
+          name: i.name,
+          nameZh: i.nameZh
+        });
       }
-
-      i.role = roleResult.results;
+      else {
+        formatResultsObj[i.uid] = {};
+        formatResultsObj[i.uid].username = i.username;
+        formatResultsObj[i.uid].phone = i.phone;
+        formatResultsObj[i.uid].id = i.uid;
+        formatResultsObj[i.uid].role = [];
+        formatResultsObj[i.uid].role.push({
+          id: i.id,
+          name: i.name,
+          nameZh: i.nameZh
+        });
+      }
     }
 
-    return userResult;
+    for(let i in formatResultsObj) {
+      formatResultsAry.push(formatResultsObj[i]);
+    }
+
+    return {
+      err, 
+      results: formatResultsAry
+    };
   }
 
   async addUser(username, password) {

@@ -9,8 +9,8 @@ class PowerModel {
     return await model.insert('user', 'username, password, phone', '?, ?, ?', [username, cryptoPassword, phone]);
   }
 
-  async findAllUser() {
-    return await model.selectWithNoConditions('user', 'id, username, phone');
+  async findAllUserAndRole() {
+    return await db.query('select user.id as uid, user.username, user.phone, role.id, role.name, role.nameZh from user left join user_role on user.id = user_role.uid left join role on user_role.rid = role.id;');
   }
 
   async delUser(id) {

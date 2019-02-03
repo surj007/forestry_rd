@@ -10,8 +10,8 @@ const commonDto = new CommonDto();
 const powerDto = new PowerDto();
 const powerService = new PowerService();
 
-router.get('/getUserAndRole', async function(req, res, next) {
-  let { err, results } = await powerService.findAllUserAndRole();
+router.get('/getUserWithRole', async function(req, res, next) {
+  let { err, results } = await powerService.findAllUserWithRole();
   res.json(commonDto.dbRespond(err, results));
 });
 
@@ -22,7 +22,7 @@ router.post('/addUser', async function(req, res, next) {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
-    let { err, results } = await powerService.findUser(req.body.username);
+    let { err, results } = await powerService.findUserByUserName(req.body.username);
 
     if(err) {
       res.json(commonDto.dbRespond(err, []));
@@ -37,6 +37,7 @@ router.post('/addUser', async function(req, res, next) {
   }
 });
 
+// 删除用户时，需要将 用户、角色对应关系 同时删除
 router.delete('/delUser', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['id']);
   

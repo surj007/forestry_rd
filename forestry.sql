@@ -1,6 +1,6 @@
-drop database forestry_rd;
-create database forestry_rd default character set utf8;
-use forestry_rd;
+drop database forestry;
+create database forestry default character set utf8;
+use forestry;
 
 create table user ( 
   id int unsigned not null primary key auto_increment, 
