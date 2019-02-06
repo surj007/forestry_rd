@@ -1,7 +1,9 @@
 const authRouter = require('./auth');
-const powerRouter = require('./power');
+const userRouter = require('./user');
+const testRouter = require('./test');
 
 module.exports = function(app) {
   app.use('/auth', authRouter);
-  app.use('/power', powerRouter);
+  app.use('/user', userRouter);
+  app.use('/test', testRouter);
 };

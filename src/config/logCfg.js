@@ -4,8 +4,8 @@ log4js.configure({
   appenders: {
     serverLog: { 
       type: 'dateFile', 
-      filename: './log/serverLog',
-      pattern: "_yyyy-MM-dd",
+      filename: './log/node',
+      pattern: "_yyyy-MM-dd.log",
       alwaysIncludePattern: true,
     }
   },
