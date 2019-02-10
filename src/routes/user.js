@@ -1,13 +1,13 @@
 const express = require('express');
 
 const CommonDto = require('../dto/commonDto.class');
-const PowerDto = require('../dto/powerDto.class');
+const UserDto = require('../dto/userDto.class');
 const UserService = require('../service/userService.class');
 const { isParamNull } = require('../util/index');
 
 const router = express.Router();
 const commonDto = new CommonDto();
-const powerDto = new PowerDto();
+const userDto = new UserDto();
 const userService = new UserService();
 
 router.get('/getUserWithRole', async function(req, res, next) {
@@ -28,7 +28,7 @@ router.post('/addUser', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(results.length != 0) {
-      res.json(powerDto.usernameDuplicate());
+      res.json(userDto.usernameDuplicate());
     }
     else {
       let { err } = await userService.addUser(req.body.username, req.body.password, req.body.phone);

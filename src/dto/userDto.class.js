@@ -1,6 +1,6 @@
 const constant = require('../util/constant');
 
-class PowerDto {
+class UserDto {
   constructor() {}
 
   usernameDuplicate() {
@@ -12,4 +12,4 @@ class PowerDto {
   }
 }
 
-module.exports = PowerDto;
+module.exports = UserDto;
