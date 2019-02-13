@@ -2,11 +2,11 @@ const Model = require('./index.class');
 
 const model = new Model();
 
-class PowerModel {
+class UserModel {
   constructor() {}
 
   async addUser(username, cryptoPassword, phone) {
-    return await model.insert('user', 'username, password, phone', '?, ?, ?', [username, cryptoPassword, phone]);
+    return await model.insert('user', 'username, password, phone', '(?, ?, ?)', [username, cryptoPassword, phone]);
   }
 
   async findAllUserAndRole() {
@@ -20,6 +20,14 @@ class PowerModel {
   async editUser(id, username, password, phone) {
     return await model.update('user', 'username = ?, password = ?, phone = ?', 'id = ?', [username, password, phone, id]);
   }
+
+  async delRole4User(uid) {
+    return await model.del('user_role', 'uid = ?', [uid]);
+  }
+
+  async addRole4User(format, data) {
+    return await model.insert('user_role', 'uid, rid', format, data);
+  }
 }
 
-module.exports = PowerModel;
+module.exports = UserModel;

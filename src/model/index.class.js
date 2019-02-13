@@ -14,7 +14,7 @@ class Model {
   }
 
   async insert(tableName, column, format, data) {
-    let { err, results, fields } = await db.query(`insert ${tableName} (${column}) values (${format})`, data);
+    let { err, results, fields } = await db.query(`insert ${tableName} (${column}) values ${format}`, data);
 
     return { err, results };
   }

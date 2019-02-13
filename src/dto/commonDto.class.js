@@ -20,6 +20,14 @@ class CommonDto {
     }
   }
 
+  ok(results, msg = 'ok') {
+    return {
+      code: constant.CODE_SUCCESS,
+      message: msg,
+      data: results
+    };
+  }
+
   isNullRespond(param) {
     return {
       code: constant.CODE_NULLERR,

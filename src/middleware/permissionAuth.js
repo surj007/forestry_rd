@@ -6,7 +6,7 @@ const authDto = new AuthDto();
 
 exports.permissionAuth = async function(req, res, next) {
   let module = req.path.split('/')[1];
-  if(module == 'auth' || (req.session.userInfo && req.session.userInfo.role.indexOf('root') != -1)) {
+  if(module == 'auth' || module == 'oss' || (req.session.userInfo && req.session.userInfo.role.indexOf('root') != -1)) {
     next();
   }
   else if(!req.session.userInfo) {

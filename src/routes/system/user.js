@@ -1,9 +1,9 @@
 const express = require('express');
 
-const CommonDto = require('../dto/commonDto.class');
-const UserDto = require('../dto/userDto.class');
-const UserService = require('../service/userService.class');
-const { isParamNull } = require('../util/index');
+const CommonDto = require('../../dto/commonDto.class');
+const UserDto = require('../../dto/userDto.class');
+const UserService = require('../../service/userService.class');
+const { isParamNull } = require('../../util/index');
 
 const router = express.Router();
 const commonDto = new CommonDto();
@@ -37,7 +37,6 @@ router.post('/addUser', async function(req, res, next) {
   }
 });
 
-// 删除用户时，需要将 用户、角色对应关系 同时删除
 router.delete('/delUser', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['id']);
   
@@ -46,7 +45,14 @@ router.delete('/delUser', async function(req, res, next) {
   }
   else {
     let { err } = await userService.delUser(req.body.id);
-    res.json(commonDto.dbRespond(err, [], 'del user success'));
+
+    if(!err) {
+      let result = await userService.delRole4User(req.body.id);
+      res.json(commonDto.dbRespond(result.err, [], 'del user success'));
+    }
+    else {
+      res.json(commonDto.dbRespond(err, []));
+    }
   }
 });
 
@@ -59,6 +65,25 @@ router.post('/editUser', async function(req, res, next) {
   else {
     let { err } = await userService.editUser(req.body.id, req.body.username, req.body.password, req.body.phone);
     res.json(commonDto.dbRespond(err, [], 'edit user success'));
+  }
+});
+
+router.post('/editRole4User', async function(req, res, next) {
+  let nullParam = isParamNull(req, 'body', ['uid', 'rid']);
+  
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err } = await userService.delRole4User(req.body.uid);
+
+    if(!err) {
+      let result = await userService.addRole4User(req.body.uid, req.body.rid);
+      res.json(commonDto.dbRespond(result.err, [], 'editRole4User success'));
+    }
+    else {
+      res.json(commonDto.dbRespond(err, []));
+    }
   }
 });
 
