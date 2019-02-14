@@ -21,21 +21,6 @@ create table user_role (
   rid int not null
 ) engine = InnoDB default charset = utf8;
 
-create table menu ( 
-  id int unsigned not null primary key auto_increment,
-  path varchar(64),
-  component varchar(64),
-  name varchar(64),
-  icon varchar(64),
-  parentId int(11)
-) engine = InnoDB default charset = utf8;
-
-create table menu_role ( 
-  id int unsigned not null primary key auto_increment,
-  mid int not null,
-  rid int not null
-) engine = InnoDB default charset = utf8;
-
 create table permission ( 
   id int unsigned not null primary key auto_increment,
   module varchar(255) not null
