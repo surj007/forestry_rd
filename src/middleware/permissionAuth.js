@@ -4,15 +4,27 @@ const AuthDto = require('../dto/authDto.class');
 const permissionAuthService = new PermissionAuthService();
 const authDto = new AuthDto();
 
+let ignoreModule = ['auth', 'oss'];
+let ignorePath = ['/basic/getBasicInfo', '/basic/getFileInfo'];
+let ignoreRole = ['root'];
+
 exports.permissionAuth = async function(req, res, next) {
   let module = req.path.split('/')[1];
-  if(module == 'auth' || module == 'oss' || (req.session.userInfo && req.session.userInfo.role.indexOf('root') != -1)) {
+
+  if(ignoreModule.indexOf(module) != -1 || ignorePath.indexOf(req.path) != -1) {
     next();
   }
   else if(!req.session.userInfo) {
     res.json(authDto.authInvalidRespond());
   }
   else {
+    for(let i of req.session.userInfo.role) {
+      if(ignoreRole.indexOf(i.name) != -1) {
+        next();
+        return;
+      }
+    }
+
     let hasPermission = await permissionAuthService.permissionAuth(req.session.userInfo.role, module);
     if(hasPermission) {
       next();

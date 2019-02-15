@@ -52,3 +52,7 @@ class OssService {
 }
 
 module.exports = OssService;
+
+// let o = new OssService();
+// console.log(o.getSignatureUrl('image/admin/', 'notice.jpg'));
+// console.log(o.getSignatureUrl('image/admin/', 'promise.jpg'));

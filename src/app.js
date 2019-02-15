@@ -33,7 +33,7 @@ app.use(expressSession({
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use(permissionAuth);
+app.use(permissionAuth);
 app.use(setRequestId);
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');

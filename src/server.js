@@ -32,5 +32,5 @@ function onError(error) {
 }
 
 process.on('uncaughtException', (err) => {
-  logger.error(err);
+  logger.error('uncaughtException: ' + err);
 });
