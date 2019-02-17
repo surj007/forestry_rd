@@ -28,7 +28,7 @@ router.post('/addPermission', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(results.length != 0) {
-      res.json(permissionDto.permissionDuplicate());
+      res.json(permissionDto.permissionDuplicateRespond());
     }
     else {
       let { err } = await permissionService.addPermission(req.body.module);

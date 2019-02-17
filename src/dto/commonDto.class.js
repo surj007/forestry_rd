@@ -20,11 +20,19 @@ class CommonDto {
     }
   }
 
-  ok(results, msg = 'ok') {
+  okRespond(results, msg = 'ok') {
     return {
       code: constant.CODE_SUCCESS,
       message: msg,
       data: results
+    };
+  }
+
+  errorRespond(code, message, data) {
+    return {
+      code,
+      message,
+      data
     };
   }
 
@@ -33,7 +41,7 @@ class CommonDto {
       code: constant.CODE_NULLERR,
       message: `${param}不能为空`,
       data: null
-    }; 
+    };
   }
 
   serverErrRespond(err) {
@@ -41,7 +49,7 @@ class CommonDto {
       code: constant.CODE_SERVERERR,
       message: err.message,
       data: err.stack
-    }; 
+    };
   }
 }
 

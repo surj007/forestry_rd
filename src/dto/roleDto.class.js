@@ -3,7 +3,7 @@ const constant = require('../util/constant');
 class RoleDto {
   constructor() {}
 
-  roleDuplicate() {
+  roleDuplicateRespond() {
     return {
       code: constant.CODE_ROLEDUPLICATE,
       message: `角色名重复`,

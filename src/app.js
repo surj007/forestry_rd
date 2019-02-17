@@ -26,7 +26,7 @@ app.use(cookieParser());
 app.use(expressSession({
   secret: 'secret',
   cookie: {maxAge: 60 * 60 * 1000},
-  resave: true, //每次访问以后，session的过期时间是否往后推迟
+  resave: false, //每次访问以后，session的过期时间是否往后推迟，现在改成在后面的中间件中推迟过期时间
   saveUninitialized: false, //无论有没有session cookie，每次请求都设置个session cookie，默认给个标示为 connect.sid，一定是false
   store: new redisStore({client: redisClient}),
 }));
@@ -35,6 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(permissionAuth);
 app.use(setRequestId);
+// 用于更新浏览器cookie过期时间
+app.use((req, res, next) => {
+  req.session._garbage = Date();
+  req.session.touch();
+  next();
+});
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');

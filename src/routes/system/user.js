@@ -10,14 +10,14 @@ const commonDto = new CommonDto();
 const userDto = new UserDto();
 const userService = new UserService();
 
-router.get('/getUserWithRole', async function(req, res, next) {
+router.get('/getUsersWithRole', async function(req, res, next) {
   let { err, results } = await userService.findAllUserWithRole();
   res.json(commonDto.dbRespond(err, results));
 });
 
 router.post('/addUser', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['username', 'password']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }
@@ -28,7 +28,7 @@ router.post('/addUser', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(results.length != 0) {
-      res.json(userDto.usernameDuplicate());
+      res.json(userDto.usernameDuplicateRespond());
     }
     else {
       let { err } = await userService.addUser(req.body.username, req.body.password, req.body.phone);
@@ -39,7 +39,7 @@ router.post('/addUser', async function(req, res, next) {
 
 router.delete('/delUser', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['id']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }
@@ -58,7 +58,7 @@ router.delete('/delUser', async function(req, res, next) {
 
 router.post('/editUser', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['id', 'username', 'password']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }
@@ -70,7 +70,7 @@ router.post('/editUser', async function(req, res, next) {
 
 router.post('/editRole4User', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['uid', 'rid']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }

@@ -41,7 +41,7 @@ router.post('/addRole', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(result.results.length != 0 || result1.results.length != 0) {
-      res.json(roleDto.roleDuplicate());
+      res.json(roleDto.roleDuplicateRespond());
     }
     else {
       let { err } = await roleService.addRole(req.body.name, req.body.nameZh);

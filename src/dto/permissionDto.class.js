@@ -3,7 +3,7 @@ const constant = require('../util/constant');
 class PermissionDto {
   constructor() {}
 
-  permissionDuplicate() {
+  permissionDuplicateRespond() {
     return {
       code: constant.CODE_PERMISSIONDUPLICATE,
       message: `模块名重复`,

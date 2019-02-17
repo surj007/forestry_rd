@@ -15,7 +15,7 @@ router.get('/getSign', (req, res, next) => {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
-    res.json(commonDto.ok(ossService.getSign(req.query.path)));
+    res.json(commonDto.okRespond(ossService.getSign(req.query.path)));
   }
 });
 
@@ -26,7 +26,7 @@ router.get('/getSignatureUrl', (req, res, next) => {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
-    res.json(commonDto.ok(ossService.getSignatureUrl(req.query.path, req.query.fileName)));
+    res.json(commonDto.okRespond(ossService.getSignatureUrl(req.query.path, req.query.fileName)));
   }
 });
 

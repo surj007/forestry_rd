@@ -10,9 +10,9 @@ const authDto = new AuthDto();
 const commonDto = new CommonDto();
 const loginService = new LoginService();
 
-router.post('/login', async function(req, res, next) {
+router.post('/login', async (req, res, next) => {
   let nullParam = isParamNull(req, 'body', ['username', 'password']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }
@@ -50,6 +50,15 @@ router.get('/logout', (req, res, next) => {
   req.session.destroy(() => {
     res.json(authDto.authLogoutRespond());
   });
+});
+
+router.get('/getUserBySession', async (req, res, next) => {
+  if(req.session.userInfo) {
+    res.json(commonDto.okRespond(req.session.userInfo));
+  }
+  else {
+    res.json(authDto.authInvalidRespond());
+  }
 });
 
 module.exports = router;

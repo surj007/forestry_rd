@@ -1,7 +1,7 @@
 const express = require('express');
 
-const CommonDto = require('../dto/commonDto.class');
-const BasicService = require('../service/basicService.class');
+const CommonDto = require('../../dto/commonDto.class');
+const BasicService = require('../../service/basicService.class');
 
 const router = express.Router();
 const commonDto = new CommonDto();

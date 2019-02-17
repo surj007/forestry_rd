@@ -4,8 +4,8 @@ const AuthDto = require('../dto/authDto.class');
 const permissionAuthService = new PermissionAuthService();
 const authDto = new AuthDto();
 
-let ignoreModule = ['auth', 'oss'];
-let ignorePath = ['/basic/getBasicInfo', '/basic/getFileInfo'];
+let ignoreModule = ['auth', 'oss', 'test'];
+let ignorePath = ['/system/basic/getBasicInfo', '/system/basic/getFileInfo'];
 let ignoreRole = ['root'];
 
 exports.permissionAuth = async function(req, res, next) {
