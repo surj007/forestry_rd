@@ -11,8 +11,15 @@ const userDto = new UserDto();
 const userService = new UserService();
 
 router.get('/getUsersWithRole', async function(req, res, next) {
-  let { err, results } = await userService.findAllUserWithRole(req.query.pageNum, req.query.pageSize);
-  res.json(commonDto.dbRespond(err, results));
+  let nullParam = isParamNull(req, 'query', ['user', 'pageNum', 'pageSize']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await userService.findAllUserWithRole(req.query.user, req.query.pageNum, req.query.pageSize);
+    res.json(commonDto.dbRespond(err, results));
+  }
 });
 
 router.post('/addUser', async function(req, res, next) {

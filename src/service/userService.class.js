@@ -16,13 +16,13 @@ class UserService {
     return await userModel.delUser(id);
   }
 
-  async findAllUserWithRole(pageNum, pageSize) {
+  async findAllUserWithRole(user, pageNum, pageSize) {
     pageNum = parseInt(pageNum);
     pageSize = parseInt(pageSize);
     let formatResults = {};
     let offset = (pageNum - 1) * pageSize;
 
-    let [ userInfo, countInfo ] = await Promise.all([userModel.findAllUserAndRole(pageSize, offset), userModel.getUserCount()]);
+    let [ userInfo, countInfo ] = await Promise.all([userModel.findAllUserAndRole(user, pageSize, offset), userModel.getUserCount()]);
 
     if(userInfo.err) {
       return {

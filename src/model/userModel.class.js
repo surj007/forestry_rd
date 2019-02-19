@@ -13,8 +13,8 @@ class UserModel {
     return await model.insert('user', 'username, password, phone', '(?, ?, ?)', [username, cryptoPassword, phone]);
   }
 
-  async findAllUserAndRole(limit, offset) {
-    return await db.query('select u.id as uid, u.username, u.phone, role.id, role.name, role.nameZh from (select * from user limit ? offset ?) as u left join user_role on u.id = user_role.uid left join role on user_role.rid = role.id', [limit, offset]);
+  async findAllUserAndRole(user, limit, offset) {
+    return await db.query('select u.id as uid, u.username, u.phone, role.id, role.name, role.nameZh from (select * from user where username like ? limit ? offset ?) as u left join user_role on u.id = user_role.uid left join role on user_role.rid = role.id', ['%' + user + '%', limit, offset]);
   }
 
   async delUser(id) {
