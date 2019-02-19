@@ -16,11 +16,28 @@ class UserService {
     return await userModel.delUser(id);
   }
 
-  async findAllUserWithRole() {
+  async findAllUserWithRole(pageNum, pageSize) {
+    pageNum = parseInt(pageNum);
+    pageSize = parseInt(pageSize);
     let formatResults = {};
-    let { err, results } = await userModel.findAllUserAndRole();
+    let offset = (pageNum - 1) * pageSize;
+
+    let [ userInfo, countInfo ] = await Promise.all([userModel.findAllUserAndRole(pageSize, offset), userModel.getUserCount()]);
+
+    if(userInfo.err) {
+      return {
+        err: userInfo.err,
+        results: []
+      };
+    }
+    else if(countInfo.err) {
+      return {
+        err: countInfo.err,
+        results: []
+      };
+    }
     
-    for(let i of results) {
+    for(let i of userInfo.results) {
       if(formatResults[i.uid]) {
         formatResults[i.uid].role.push({
           id: i.id,
@@ -43,8 +60,15 @@ class UserService {
     }
 
     return {
-      err, 
-      results: Object.values(formatResults)
+      err: null,
+      results: {
+        pager: {
+          total: countInfo.results[0]['count(*)'],
+          pageNum,
+          pageSize
+        },
+        result: Object.values(formatResults)
+      }
     };
   }
 

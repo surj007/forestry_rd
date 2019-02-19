@@ -48,6 +48,7 @@ router.post('/login', async (req, res, next) => {
 
 router.get('/logout', (req, res, next) => {
   req.session.destroy(() => {
+    res.clearCookie('connect.sid');
     res.json(authDto.authLogoutRespond());
   });
 });

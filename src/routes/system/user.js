@@ -11,7 +11,7 @@ const userDto = new UserDto();
 const userService = new UserService();
 
 router.get('/getUsersWithRole', async function(req, res, next) {
-  let { err, results } = await userService.findAllUserWithRole();
+  let { err, results } = await userService.findAllUserWithRole(req.query.pageNum, req.query.pageSize);
   res.json(commonDto.dbRespond(err, results));
 });
 

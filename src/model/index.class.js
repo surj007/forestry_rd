@@ -1,6 +1,12 @@
 class Model {
   constructor() {}
 
+  async getCount(tableName) {
+    let { err, results, fields } = await db.query(`select count(*) from ${tableName}`, []);
+
+    return { err, results };
+  }
+
   async selectWithNoConditions(tableName, column) {
     let { err, results, fields } = await db.query(`select ${column} from ${tableName}`, []);
 
