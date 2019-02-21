@@ -5,8 +5,34 @@ const roleModel = new RoleModel();
 class RoleService {
   constructor() {}
 
-  async getRoles() {
-    return await roleModel.getRoles();
+  async getRolesWithPermission(roleNameZh) {
+    let formatResults = {};
+    let { err, results } = await roleModel.getRolesWithPermission(roleNameZh);
+
+    for(let i of results) {
+      if(formatResults[i.rid]) {
+        formatResults[i.rid].permission.push({
+          id: i.id,
+          module: i.module
+        });
+      }
+      else {
+        formatResults[i.rid] = {};
+        formatResults[i.rid].id = i.rid;
+        formatResults[i.rid].name = i.name;
+        formatResults[i.rid].nameZh = i.nameZh;
+        formatResults[i.rid].permission = [];
+        formatResults[i.rid].permission.push({
+          id: i.id,
+          module: i.module
+        });
+      }
+    }
+
+    return {
+      err,
+      results: Object.values(formatResults)
+    }
   }
 
   async getPermissionByRole(rid) {

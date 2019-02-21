@@ -23,7 +23,8 @@ create table user_role (
 
 create table permission ( 
   id int unsigned not null primary key auto_increment,
-  module varchar(255) not null
+  module varchar(255) not null,
+  description varchar(255) not null
 ) engine = InnoDB default charset = utf8;
 
 create table permission_role ( 

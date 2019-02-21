@@ -38,7 +38,7 @@ class AuthDto {
   authForbiddenRespond() {
     return {
       code: constant.CODE_FORBIDDEN,
-      message: '当前用户无权限访问此资源',
+      message: '当前用户无权限访问此资源，请联系管理员',
       data: null
     };
   }

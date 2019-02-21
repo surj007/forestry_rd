@@ -4,11 +4,12 @@ const AuthDto = require('../dto/authDto.class');
 const permissionAuthService = new PermissionAuthService();
 const authDto = new AuthDto();
 
-let ignoreModule = ['oss', 'test'];
+let ignoreModule = ['menu', 'oss', 'test'];
 let ignorePath = [
   '/system/basic/getBasicInfo', 
   '/system/basic/getFileInfo',
-  '/auth/login'
+  '/auth/login',
+  '/auth/logout'
 ];
 let ignoreRole = ['root'];
 

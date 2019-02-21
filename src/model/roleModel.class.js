@@ -5,8 +5,11 @@ const model = new Model();
 class RoleModel {
   constructor() {}
 
-  async getRoles() {
-    return await model.selectWithConditions('role', '*', 'id != ?', [1]);
+  async getRolesWithPermission(roleNameZh) {
+    let query = 'select r.id as rid, name, nameZh, permission.id, module from (select * from role where role.id != ? and nameZh like ?) as r left join permission_role on r.id = permission_role.rid left join permission on permission_role.pid = permission.id';
+    let data = [1, `%${roleNameZh}%`];
+
+    return await db.query(query, data);
   }
 
   async getPermissionByRole(rid) {

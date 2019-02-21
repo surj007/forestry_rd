@@ -10,9 +10,16 @@ const commonDto = new CommonDto();
 const roleDto = new RoleDto();
 const roleService = new RoleService();
 
-router.get('/getRoles', async function(req, res, next) {
-  let { err, results } = await roleService.getRoles();
-  res.json(commonDto.dbRespond(err, results));
+router.get('/getRolesWithPermission', async function(req, res, next) {
+  let nullParam = isParamNull(req, 'query', ['roleNameZh']);
+  
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await roleService.getRolesWithPermission(req.query.roleNameZh);
+    res.json(commonDto.dbRespond(err, results));
+  }
 });
 
 router.get('/getPermissionByRole', async function(req, res, next) {
@@ -44,8 +51,8 @@ router.post('/addRole', async function(req, res, next) {
       res.json(roleDto.roleDuplicateRespond());
     }
     else {
-      let { err } = await roleService.addRole(req.body.name, req.body.nameZh);
-      res.json(commonDto.dbRespond(err, [], 'add role success'));
+      let { err, results } = await roleService.addRole(req.body.name, req.body.nameZh);
+      res.json(commonDto.dbRespond(err, results.insertId, 'add role success'));
     }
   }
 });
