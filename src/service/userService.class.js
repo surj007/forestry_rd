@@ -1,3 +1,5 @@
+const uuid = require('uuid');
+
 const CommonModel = require('../model/commonModel.class');
 const UserModel = require('../model/userModel.class');
 const util = require('../util/index');
@@ -36,14 +38,16 @@ class UserService {
         results: []
       };
     }
-    
+
     for(let i of userInfo.results) {
       if(formatResults[i.uid]) {
-        formatResults[i.uid].role.push({
-          id: i.id,
-          name: i.name,
-          nameZh: i.nameZh
-        });
+        if(i.id) {
+          formatResults[i.uid].role.push({
+            id: i.id,
+            name: i.name,
+            nameZh: i.nameZh
+          });
+        }
       }
       else {
         formatResults[i.uid] = {};
@@ -51,11 +55,13 @@ class UserService {
         formatResults[i.uid].phone = i.phone;
         formatResults[i.uid].id = i.uid;
         formatResults[i.uid].role = [];
-        formatResults[i.uid].role.push({
-          id: i.id,
-          name: i.name,
-          nameZh: i.nameZh
-        });
+        if(i.id) {
+          formatResults[i.uid].role.push({
+            id: i.id,
+            name: i.name,
+            nameZh: i.nameZh
+          });
+        }
       }
     }
 
@@ -63,7 +69,7 @@ class UserService {
       err: null,
       results: {
         pager: {
-          total: countInfo.results[0]['count(*)'],
+          total: countInfo.results[0]['count(*)'] - 1,
           pageNum,
           pageSize
         },
@@ -72,12 +78,21 @@ class UserService {
     };
   }
 
-  async addUser(username, password) {
-    return await userModel.addUser(username, util.cryptoBySha256(username + password));
+  async addUser(username, password, phone) {
+    let salt = uuid.v4();// v4随机生成，有可能重复
+    return await userModel.addUser(username, util.cryptoBySha256(salt + password), phone, salt);
   }
 
   async editUser(id, username, password, phone) {
-    return await userModel.editUser(id, username, util.cryptoBySha256(username + password), phone);
+    let salt = null;
+    let cryptoPassword = null;
+
+    if(password != '-@_-@_-@_') {
+      salt = uuid.v4();
+      cryptoPassword = util.cryptoBySha256(salt + password);
+    }
+
+    return await userModel.editUser(id, username, cryptoPassword, phone, salt);
   }
 
   async delRole4User(uid) {
@@ -97,6 +112,33 @@ class UserService {
       data.push(rid[i]);
     }
     return await userModel.addRole4User(format, data);
+  }
+
+  async changePwd(userId, oldPwd, newPwd) {
+    let { err, results } = await commonModel.findUserInfoByUserId(userId);
+
+    if(err) {
+      return { err, results }
+    }
+
+    if(results[0].password != util.cryptoBySha256(results[0].salt + oldPwd)) {
+      return {
+        err: null,
+        results: false
+      }
+    }
+    else {
+      let result = await userModel.changePwd(userId, util.cryptoBySha256(results[0].salt + newPwd));
+
+      return {
+        err: result.err,
+        results: true
+      }
+    }
+  }
+
+  async changeUserInfo(userId, phone) {
+    return await userModel.changeUserInfo(userId, phone);
   }
 }
 

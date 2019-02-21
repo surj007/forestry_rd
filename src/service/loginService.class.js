@@ -1,5 +1,6 @@
 const CommonModel = require('../model/commonModel.class');
 const util = require('../util/index');
+const constant = require('../util/constant');
 
 const commonModel = new CommonModel();
 
@@ -15,7 +16,7 @@ class LoginService {
         result: [] 
       }
     }
-    else if(!results[0] || results[0].password != util.cryptoBySha256(username + password)) {
+    else if(!results[0] || results[0].password != util.cryptoBySha256(results[0].salt + password)) {
       return {
         err: null,
         result: null

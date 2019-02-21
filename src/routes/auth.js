@@ -3,12 +3,15 @@ const express = require('express');
 const AuthDto = require('../dto/authDto.class');
 const CommonDto = require('../dto/commonDto.class');
 const LoginService = require('../service/loginService.class');
+const UserService = require('../service/userService.class');
 const { isParamNull } = require('../util/index');
+const constant = require('../util/constant');
 
 const router = express.Router();
 const authDto = new AuthDto();
 const commonDto = new CommonDto();
 const loginService = new LoginService();
+const userService = new UserService();
 
 router.post('/login', async (req, res, next) => {
   let nullParam = isParamNull(req, 'body', ['username', 'password']);
@@ -59,6 +62,44 @@ router.get('/getUserBySession', async (req, res, next) => {
   }
   else {
     res.json(authDto.authInvalidRespond());
+  }
+});
+
+router.post('/changePwd', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'body', ['oldPwd', 'newPwd']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await userService.changePwd(req.session.userInfo.uid, req.body.oldPwd, req.body.newPwd);
+
+    if(err) {
+      res.json(commonDto.dbRespond(err, results));
+    }
+    else if(results) {
+      res.json(commonDto.okRespond());
+    }
+    else {
+      res.json(commonDto.errorRespond(constant.CODE_CHANGEPWDERR, '原始密码错误，请重新填写'));
+    }
+  }
+});
+
+router.post('/changeUserInfo', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'body', ['phone']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err } = await userService.changeUserInfo(req.session.userInfo.uid, req.body.phone);
+
+    if(!err) {
+      req.session.userInfo.phone = req.body.phone;
+    }
+    
+    res.json(commonDto.dbRespond(err, req.session.userInfo));
   }
 });
 

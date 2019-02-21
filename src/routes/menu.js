@@ -7,7 +7,7 @@ const router = express.Router();
 const commonDto = new CommonDto();
 const menuService = new MenuService();
 
-router.get('/getMenu', async function(req, res, next) {
+router.get('/getMenu', async (req, res, next) => {
   let { err, result } = await menuService.getMenu(req.session.userInfo.role);
   res.json(commonDto.dbRespond(err, result));
 });

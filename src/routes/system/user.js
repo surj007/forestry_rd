@@ -4,6 +4,7 @@ const CommonDto = require('../../dto/commonDto.class');
 const UserDto = require('../../dto/userDto.class');
 const UserService = require('../../service/userService.class');
 const { isParamNull } = require('../../util/index');
+const constant = require('../../util/constant');
 
 const router = express.Router();
 const commonDto = new CommonDto();
@@ -38,8 +39,8 @@ router.post('/addUser', async function(req, res, next) {
       res.json(userDto.usernameDuplicateRespond());
     }
     else {
-      let { err } = await userService.addUser(req.body.username, req.body.password, req.body.phone);
-      res.json(commonDto.dbRespond(err, [], 'add user success'));
+      let { err, results } = await userService.addUser(req.body.username, req.body.password, req.body.phone);
+      res.json(commonDto.dbRespond(err, results.insertId, 'add user success'));
     }
   }
 });
@@ -70,8 +71,18 @@ router.post('/editUser', async function(req, res, next) {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
-    let { err } = await userService.editUser(req.body.id, req.body.username, req.body.password, req.body.phone);
-    res.json(commonDto.dbRespond(err, [], 'edit user success'));
+    let { err, results } = await userService.findUserByUserName(req.body.username);
+
+    if(err) {
+      res.json(commonDto.dbRespond(err, []));
+    }
+    else if(results.length != 0) {
+      res.json(userDto.usernameDuplicateRespond());
+    }
+    else {
+      let { err } = await userService.editUser(req.body.id, req.body.username, req.body.password, req.body.phone);
+      res.json(commonDto.dbRespond(err, [], 'edit user success'));
+    }
   }
 });
 
@@ -82,6 +93,10 @@ router.post('/editRole4User', async function(req, res, next) {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
+    if(req.body.rid.includes(1)) {
+      res.json(commonDto.errorRespond(constant.CODE_FORBIDDEN, '修改角色错误'));
+    }
+
     let { err } = await userService.delRole4User(req.body.uid);
 
     if(!err) {

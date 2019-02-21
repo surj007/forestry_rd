@@ -5,7 +5,8 @@ create table user (
   id int unsigned not null primary key auto_increment, 
   username varchar(255) not null unique key,
   password varchar(255) not null,
-  phone varchar(20)
+  phone varchar(20),
+  salt varchar(40) not null
 ) engine = InnoDB default charset = utf8;
 
 create table role ( 

@@ -51,11 +51,17 @@ app.use((req, res, next) => {
 require('./routes')(app);
 
 app.use((req, res, next) => {
+  // 有这个中间件才能抛出错误，下面的中间件才能接到
   next(createError(404));
 });
 
 app.use((err, req, res, next) => {
-  res.status(500).json(commonDto.serverErrRespond(err));
+  if(err.name == 'NotFoundError') {
+    res.status(404).json(commonDto.serverErrRespond(err));
+  }
+  else {
+    res.status(500).json(commonDto.serverErrRespond(err));
+  }
   logger.error(err);
 });
 

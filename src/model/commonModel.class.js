@@ -9,6 +9,10 @@ class CommonModel {
     return await model.selectWithConditions('user', '*', 'username = ?', [username]);
   }
 
+  async findUserInfoByUserId(userId) {
+    return await model.selectWithConditions('user', '*', 'id = ?', [userId]);
+  }
+
   async findRoleByUserId(userId) {
     let query = 'select b.id, name, nameZh from user_role as a left join role as b on a.rid = b.id where a.uid = ?';
     let data = [userId];

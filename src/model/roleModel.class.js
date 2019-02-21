@@ -6,7 +6,7 @@ class RoleModel {
   constructor() {}
 
   async getRoles() {
-    return await model.selectWithNoConditions('role', '*');
+    return await model.selectWithConditions('role', '*', 'id != ?', [1]);
   }
 
   async getPermissionByRole(rid) {
