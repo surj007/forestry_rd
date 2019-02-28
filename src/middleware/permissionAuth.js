@@ -7,7 +7,7 @@ const authDto = new AuthDto();
 let ignoreModule = ['menu', 'oss', 'test'];
 let ignorePath = [
   '/system/basic/getBasicInfo', 
-  '/system/basic/getFileInfo',
+  '/system/file/getFileInfo',
   '/auth/login',
   '/auth/logout'
 ];

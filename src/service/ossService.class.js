@@ -15,8 +15,8 @@ class OssService {
 
   getSign(path) {
     const config = {
-      dirPath: `image/${path}/`,
-      expAfter: 60000,
+      dirPath: path,
+      expAfter: 60 * 60 * 1000,
       maxSize: 1048576000
     };
     

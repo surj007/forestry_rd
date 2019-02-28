@@ -1,14 +1,12 @@
 const express = require('express');
 
 const CommonDto = require('../../dto/commonDto.class');
-const UserDto = require('../../dto/userDto.class');
 const UserService = require('../../service/userService.class');
 const { isParamNull } = require('../../util/index');
 const constant = require('../../util/constant');
 
 const router = express.Router();
 const commonDto = new CommonDto();
-const userDto = new UserDto();
 const userService = new UserService();
 
 router.get('/getUsersWithRole', async function(req, res, next) {
@@ -36,7 +34,7 @@ router.post('/addUser', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(results.length != 0) {
-      res.json(userDto.usernameDuplicateRespond());
+      res.json(commonDto.duplicateKeyRespond('用户名'));
     }
     else {
       let { err, results } = await userService.addUser(req.body.username, req.body.password, req.body.phone);
@@ -77,7 +75,7 @@ router.post('/editUser', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(results.length != 0) {
-      res.json(userDto.usernameDuplicateRespond());
+      res.json(commonDto.duplicateKeyRespond('用户名'));
     }
     else {
       let { err } = await userService.editUser(req.body.id, req.body.username, req.body.password, req.body.phone);

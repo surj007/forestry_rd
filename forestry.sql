@@ -69,7 +69,7 @@ create table company_c (
   store varchar(200) not null,
   companyType varchar(20) not null,
   source varchar(50) not null,
-  outCityCompany tinyint(1) unsigned,
+  outCityCompany tinyint(1) unsigned not null default 1,
   outCityCompanyName varchar(200),
   kind varchar(200) not null,
   saw varchar(20),
@@ -101,10 +101,22 @@ create table basic (
 
 create table file (
   id int unsigned not null primary key auto_increment,
-  name varchar(50) not null,
-  url varchar(1000) not null
+  name varchar(100) not null,
+  url varchar(1000) not null,
+  size varchar(20) not null,
+  type varchar(20) not null
 ) engine = InnoDB default charset = utf8;
 
+create table version (
+  id int unsigned not null primary key auto_increment,
+  title varchar(100) not null,
+  description varchar(200) not null,
+  version_id varchar(20) not null,
+  version_name varchar(20) not null,
+  force_update tinyint(1) unsigned not null default 0,
+  type varchar(10) not null,
+  url varchar(1000) 
+) engine = InnoDB default charset = utf8;
 
 insert role_c (name, nameZh) values ('ROLE_admin', '管理员');
 insert role_c (name, nameZh) values ('ROLE_employee', '员工');

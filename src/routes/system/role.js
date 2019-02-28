@@ -1,13 +1,11 @@
 const express = require('express');
 
 const CommonDto = require('../../dto/commonDto.class');
-const RoleDto = require('../../dto/roleDto.class');
 const RoleService = require('../../service/roleService.class');
 const { isParamNull } = require('../../util/index');
 
 const router = express.Router();
 const commonDto = new CommonDto();
-const roleDto = new RoleDto();
 const roleService = new RoleService();
 
 router.get('/getRolesWithPermission', async function(req, res, next) {
@@ -48,7 +46,7 @@ router.post('/addRole', async function(req, res, next) {
       res.json(commonDto.dbRespond(err, []));
     }
     else if(result.results.length != 0 || result1.results.length != 0) {
-      res.json(roleDto.roleDuplicateRespond());
+      res.json(commonDto.duplicateKeyRespond('角色名'));
     }
     else {
       let { err, results } = await roleService.addRole(req.body.name, req.body.nameZh);

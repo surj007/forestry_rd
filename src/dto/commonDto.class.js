@@ -44,6 +44,14 @@ class CommonDto {
     };
   }
 
+  duplicateKeyRespond(key) {
+    return {
+      code: constant.CODE_DUPLICATE,
+      message: `${key}重复，请重新输入`,
+      data: null
+    }; 
+  }
+
   serverErrRespond(err) {
     return {
       code: constant.CODE_SERVERERR,

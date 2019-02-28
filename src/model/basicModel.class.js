@@ -5,12 +5,20 @@ const model = new Model();
 class BasicModel {
   constructor() {}
 
-  async getBasicInfo() {
-    return await model.selectWithNoConditions('basic', 'name, info');
+  async getBasicInfo(basicName) {
+    return await model.selectWithConditions('basic', '*', 'name like ?', [`%${basicName}%`]);
   }
 
-  async getFileInfo() {
-    return await model.selectWithNoConditions('file', 'name, url');
+  async delBasic(id) {
+    return await model.del('basic', 'id = ?', [id]);
+  }
+
+  async addBasic(basicName, basicValue) {
+    return await model.insert('basic', 'name, info', '(?, ?)', [basicName, basicValue]);
+  }
+
+  async editBasic(id, basicName, basicValue) {
+    return await model.update('basic', 'name = ?, info = ?', 'id = ?', [basicName, basicValue, id]);
   }
 }
 
