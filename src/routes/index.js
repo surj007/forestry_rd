@@ -8,6 +8,7 @@ const permissionRouter = require('./system/permission');
 const basicRouter = require('./system/basic');
 const fileRouter = require('./system/file');
 const versionRouter = require('./system/version');
+const homeRouter = require('./home');
 
 module.exports = (app) => {
   app.use('/auth', authRouter);
@@ -17,6 +18,8 @@ module.exports = (app) => {
   app.use('/oss', ossRouter);
 
   app.use('/test', testRouter);
+
+  app.use('/home', homeRouter);
 
   app.use('/system/user', userRouter);
   app.use('/system/role', roleRouter);

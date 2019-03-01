@@ -6,7 +6,7 @@ class UserModel {
   constructor() {}
 
   async getUserCount() {
-    return await model.getCount('user');
+    return await model.getCountWithNoConditions('user');
   }
 
   async addUser(username, cryptoPassword, phone, salt) {

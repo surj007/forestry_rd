@@ -45,7 +45,7 @@ create table user_c (
   name varchar(20),
   code varchar(255),
   status tinyint(1) unsigned not null default 1,
-  last_modify_time timestamp not null default current_timestamp
+  last_modify_time timestamp not null default current_timestamp on update current_timestamp 
 ) engine = InnoDB default charset = utf8;
 
 create table role_c (
@@ -84,7 +84,8 @@ create table company_c (
   cardFrontPic varchar(1000) not null,
   cardOppositePic varchar(1000) not null,
   notificationPic varchar(1000) not null,
-  commitPic varchar(1000) not null
+  commitPic varchar(1000) not null,
+  create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
 create table company_user_c (
