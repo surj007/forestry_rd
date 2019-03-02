@@ -9,6 +9,7 @@ const basicRouter = require('./system/basic');
 const fileRouter = require('./system/file');
 const versionRouter = require('./system/version');
 const homeRouter = require('./home');
+const companyRouter = require('./company');
 
 module.exports = (app) => {
   app.use('/auth', authRouter);
@@ -20,6 +21,8 @@ module.exports = (app) => {
   app.use('/test', testRouter);
 
   app.use('/home', homeRouter);
+
+  app.use('/company', companyRouter);
 
   app.use('/system/user', userRouter);
   app.use('/system/role', roleRouter);

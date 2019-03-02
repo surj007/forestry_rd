@@ -64,6 +64,7 @@ create table company_c (
   id int unsigned not null primary key auto_increment,
   name varchar(50) not null unique key,
   corporation varchar(20) not null,
+  code varchar(50) not null,
   phone varchar(20) not null,
   address varchar(100) not null,
   store varchar(200) not null,
@@ -85,6 +86,7 @@ create table company_c (
   cardOppositePic varchar(1000) not null,
   notificationPic varchar(1000) not null,
   commitPic varchar(1000) not null,
+  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已注册，3-未通过，4-已注销',
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
