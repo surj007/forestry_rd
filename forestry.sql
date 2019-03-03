@@ -64,7 +64,7 @@ create table company_c (
   id int unsigned not null primary key auto_increment,
   name varchar(50) not null unique key,
   corporation varchar(20) not null,
-  code varchar(50) not null,
+  code varchar(50) not null unique key,
   phone varchar(20) not null,
   address varchar(100) not null,
   store varchar(200) not null,
