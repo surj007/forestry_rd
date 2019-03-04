@@ -41,10 +41,14 @@ create table test_c (
 create table user_c (
   id int unsigned not null primary key auto_increment,
   username varchar(20) not null unique key,
-  password varchar(255) not null,
+  password varchar(255) default "-@_",
   name varchar(20),
   code varchar(255),
   status tinyint(1) unsigned not null default 1,
+  boss int unsigned,
+  socialSecurityPic varchar(1000),
+  cardFrontPic varchar(1000),
+  cardOppositePic varchar(1000),
   last_modify_time timestamp not null default current_timestamp on update current_timestamp 
 ) engine = InnoDB default charset = utf8;
 
