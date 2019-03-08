@@ -128,9 +128,9 @@ create table version (
 create table wood_cert (
   id int unsigned not null primary key auto_increment,
   amount varchar(20) not null,
-  noticePic varchar(1000) not null,
-  ladingPic varchar(1000) not null,
-  declarationPic varchar(1000) not null,
+  noticePic varchar(30000) not null,
+  ladingPic varchar(30000) not null,
+  declarationPic varchar(30000) not null,
   cid int not null,
   status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过'
 ) engine = InnoDB default charset = utf8;
@@ -138,9 +138,9 @@ create table wood_cert (
 create table board_cert (
   id int unsigned not null primary key auto_increment,
   amount varchar(20) not null,
-  noticePic varchar(1000) not null,
-  declarationPic varchar(1000) not null,
-  contractPic varchar(15000) not null,
+  noticePic varchar(30000) not null,
+  declarationPic varchar(30000) not null,
+  contractPic varchar(30000) not null,
   cid int not null,
   status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过'
 ) engine = InnoDB default charset = utf8;
