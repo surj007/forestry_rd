@@ -90,8 +90,9 @@ create table company_c (
   cardOppositePic varchar(1000) not null,
   notificationPic varchar(1000) not null,
   commitPic varchar(1000) not null,
-  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已注册，3-未通过，4-已注销',
-  create_time timestamp not null default current_timestamp
+  status tinyint(1) unsigned not null default 1 comment '1-审核中，2-已注册，3-未通过，4-已注销',
+  create_time timestamp not null default current_timestamp,
+  last_modify_time timestamp not null default current_timestamp on update current_timestamp
 ) engine = InnoDB default charset = utf8;
 
 create table company_user_c (
@@ -145,9 +146,14 @@ create table board_cert (
   status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过'
 ) engine = InnoDB default charset = utf8;
 
+create table user_setting_c (
+  id int unsigned not null primary key auto_increment,
+  uid int unsigned not null,
+  notice tinyint(1) unsigned not null default 1
+) engine = InnoDB default charset = utf8;
+
 insert role_c (name, nameZh) values ('ROLE_admin', '管理员');
 insert role_c (name, nameZh) values ('ROLE_employee', '员工');
-
 
 -- 未在阿里云上执行
 DELIMITER //
