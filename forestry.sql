@@ -133,7 +133,9 @@ create table wood_cert (
   ladingPic varchar(30000) not null,
   declarationPic varchar(30000) not null,
   cid int not null,
-  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过'
+  window varchar(100),
+  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过',
+  create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
 create table board_cert (
@@ -143,7 +145,35 @@ create table board_cert (
   declarationPic varchar(30000) not null,
   contractPic varchar(30000) not null,
   cid int not null,
-  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过'
+  window varchar(100),
+  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过',
+  create_time timestamp not null default current_timestamp
+) engine = InnoDB default charset = utf8;
+
+create table plant_cert (
+  id int unsigned not null primary key auto_increment,
+  producing_area varchar(100),
+  processing_area varchar(100),
+  plant_name varchar(30) not null,
+  variety varchar(30) not null,
+  car_amount varchar(20) not null,
+  every_car_amount varchar(20) not null,
+  package varchar(50),
+  standard varchar(50),
+  reveive_person varchar(20) not null,
+  reveive_address_type tinyint(1) unsigned not null default 0 comment '0-省内，1-省外',
+  reveive_address varchar(100) not null,
+  phone varchar(20) not null,
+  person_id varchar(20) not null,
+  date_time varchar(20) not null,
+  apply_person varchar(10),
+  transport_person varchar(10) not null,
+  report_number varchar(30) not null,
+  car_number varchar(300) not null,
+  cid int not null,
+  window varchar(100),
+  status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过，4-待上传照片',
+  create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
 create table user_setting_c (
