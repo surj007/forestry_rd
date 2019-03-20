@@ -10,7 +10,7 @@ const companyService = new CompanyService();
 
 router.get('/getCompanyList', async (req, res, next) => {
   let nullParam = isParamNull(req, 'query', ['companyType', 'name', 'status', 'store']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }
@@ -22,13 +22,25 @@ router.get('/getCompanyList', async (req, res, next) => {
 
 router.get('/getCompanyById', async (req, res, next) => {
   let nullParam = isParamNull(req, 'query', ['id']);
-  
+
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
     let { err, results } = await companyService.getCompanyById(req.query.id);
     res.json(commonDto.dbRespond(err, results[0]));
+  }
+});
+
+router.get('/getCertAmountById', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'query', ['id']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await companyService.getCertAmountById(req.query.id);
+    res.json(commonDto.dbRespond(err, results));
   }
 });
 

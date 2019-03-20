@@ -92,6 +92,7 @@ create table company_c (
   commitPic varchar(1000) not null,
   status tinyint(1) unsigned not null default 1 comment '1-审核中，2-已注册，3-未通过，4-已注销',
   refuse_reason varchar(500),
+  check_person int unsigned,
   create_time timestamp not null default current_timestamp,
   last_modify_time timestamp not null default current_timestamp on update current_timestamp
 ) engine = InnoDB default charset = utf8;
@@ -137,6 +138,7 @@ create table wood_cert (
   windows varchar(100),
   status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过',
   refuse_reason varchar(500),
+  check_person int unsigned,
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
@@ -150,6 +152,7 @@ create table board_cert (
   windows varchar(100),
   status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过',
   refuse_reason varchar(500),
+  check_person int unsigned,
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
@@ -180,6 +183,7 @@ create table plant_cert (
   windows varchar(100),
   status tinyint(1) unsigned not null default 1 comment '1-待审核，2-已通过，3-未通过，4-待上传照片',
   refuse_reason varchar(500),
+  check_person int unsigned,
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 

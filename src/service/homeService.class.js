@@ -15,7 +15,7 @@ class HomeService {
     
     for(let i of resultsArray) {
       if(i.err) {
-        return { err, results: [] }
+        return { err: i.err, results: [] }
       }
     }
 
