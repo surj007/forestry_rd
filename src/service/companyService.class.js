@@ -41,6 +41,14 @@ class CompanyService {
       }
     }
   }
+
+  async getEmployeeByCompnayId(companyId) {
+    return await companyModel.getEmployeeByCompnayId(companyId);
+  }
+
+  async approveCompany(id, status, refuse_reason, remark, uid) {
+    return await companyModel.approveCompany(id, status, refuse_reason, remark, uid);
+  }
 }
 
 module.exports = CompanyService;

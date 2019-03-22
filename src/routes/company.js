@@ -44,4 +44,28 @@ router.get('/getCertAmountById', async (req, res, next) => {
   }
 });
 
+router.get('/getEmployeeByCompnayId', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'query', ['id']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await companyService.getEmployeeByCompnayId(req.query.id);
+    res.json(commonDto.dbRespond(err, results));
+  }
+});
+
+router.put('/approveCompany', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'body', ['id', 'status', 'refuse_reason', 'remark']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await companyService.approveCompany(req.body.id, req.body.status, req.body.refuse_reason, req.body.remark, req.session.userInfo.uid);
+    res.json(commonDto.dbRespond(err, results));
+  }
+});
+
 module.exports = router;
