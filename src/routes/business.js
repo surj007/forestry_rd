@@ -20,6 +20,18 @@ router.get('/getCertList', async (req, res, next) => {
   }
 });
 
+router.get('/getPlantCertList', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'query', ['status', 'companyName']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await businessService.getPlantCertList(req.query.status, req.query.companyName);
+    res.json(commonDto.dbRespond(err, results));
+  }
+});
+
 router.put('/invokeCert', async (req, res, next) => {
   let nullParam = isParamNull(req, 'body', ['id', 'table', 'status']);
 
@@ -27,7 +39,19 @@ router.put('/invokeCert', async (req, res, next) => {
     res.json(commonDto.isNullRespond(nullParam));
   }
   else {
-    let { err, results } = await businessService.invokeCert(req.body.id, req.body.table, req.body.status);
+    let { err, results } = await businessService.invokeCert(req.body.id, req.body.table, req.body.status, req.session.userInfo.uid);
+    res.json(commonDto.dbRespond(err, results));
+  }
+});
+
+router.put('/invokePlantCert', async (req, res, next) => {
+  let nullParam = isParamNull(req, 'body', ['id', 'status']);
+
+  if(nullParam) {
+    res.json(commonDto.isNullRespond(nullParam));
+  }
+  else {
+    let { err, results } = await businessService.invokePlantCert(req.body.id, req.body.status, req.session.userInfo.uid);
     res.json(commonDto.dbRespond(err, results));
   }
 });

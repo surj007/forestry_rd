@@ -5,9 +5,9 @@ const BusinessModel = require('../model/businessModel.class');
 const businessModel = new BusinessModel();
 
 class BusinessService {
-  constructor() {}
+  constructor () {}
 
-  async getCertList(certType, statusString, companyName) {
+  async getCertList (certType, statusString, companyName) {
     let status = statusString === '' ? '' : parseInt(statusString);
     let results = [];
     let err = {};
@@ -69,8 +69,25 @@ class BusinessService {
     return { err, results };
   }
 
-  async invokeCert(id, table, status) {
-    return await businessModel.invokeCert(id, table, status);
+  async getPlantCertList (statusString, companyName) {
+    let status = statusString === '' ? '' : parseInt(statusString);
+
+    let { err, results } = await businessModel.getPlantCertList(status, companyName);
+
+    results.forEach((item) => {
+      item.number = `P${moment(item.create_time).format('YYYYMMDDHHmmss')}${item.id}`;
+      item.create_time = moment(item.create_time).format('YYYY-MM-DD HH:mm:ss');
+    });
+
+    return { err, results };
+  }
+
+  async invokeCert (id, table, status, uid) {
+    return await businessModel.invokeCert(id, table, status, uid);
+  }
+
+  async invokePlantCert (id, status, uid) {
+    return await businessModel.invokePlantCert(id, status, uid);
   }
 }
 
