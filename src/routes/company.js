@@ -57,7 +57,7 @@ router.get('/getEmployeeByCompnayId', async (req, res, next) => {
 });
 
 router.put('/approveCompany', async (req, res, next) => {
-  let nullParam = isParamNull(req, 'body', ['id', 'status', 'refuse_reason', 'remark']);
+  let nullParam = isParamNull(req, 'body', ['id', 'status', 'refuse_reason']);
 
   if(nullParam) {
     res.json(commonDto.isNullRespond(nullParam));

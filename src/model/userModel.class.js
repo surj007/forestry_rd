@@ -14,7 +14,7 @@ class UserModel {
   }
 
   async findAllUserAndRole(user, limit, offset) {
-    return await db.query('select u.id as uid, u.username, u.phone, role.id, role.name, role.nameZh from (select * from user where username like ? and username != ? limit ? offset ?) as u left join user_role on u.id = user_role.uid left join role on user_role.rid = role.id', ['%' + user + '%', 'srj', limit, offset]);
+    return await db.query('select u.id as uid, u.username, u.phone, role.id, role.name, role.nameZh from (select * from user where username like ? and id != ? limit ? offset ?) as u left join user_role on u.id = user_role.uid left join role on user_role.rid = role.id', [`%${user}%`, 1, limit, offset]);
   }
 
   async delUser(id) {

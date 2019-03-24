@@ -5,16 +5,18 @@ const roleModel = new RoleModel();
 class RoleService {
   constructor() {}
 
-  async getRolesWithPermission(roleNameZh) {
+  async getRolesWithPermission (roleNameZh) {
     let formatResults = {};
     let { err, results } = await roleModel.getRolesWithPermission(roleNameZh);
 
-    for(let i of results) {
-      if(formatResults[i.rid]) {
-        formatResults[i.rid].permission.push({
-          id: i.id,
-          module: i.module
-        });
+    for (let i of results) {
+      if (formatResults[i.rid]) {
+        if (i.id) {
+          formatResults[i.rid].permission.push({
+            id: i.id,
+            module: i.module
+          });
+        }
       }
       else {
         formatResults[i.rid] = {};
@@ -22,10 +24,12 @@ class RoleService {
         formatResults[i.rid].name = i.name;
         formatResults[i.rid].nameZh = i.nameZh;
         formatResults[i.rid].permission = [];
-        formatResults[i.rid].permission.push({
-          id: i.id,
-          module: i.module
-        });
+        if (i.id) {
+          formatResults[i.rid].permission.push({
+            id: i.id,
+            module: i.module
+          });
+        }
       }
     }
 
