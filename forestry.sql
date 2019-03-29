@@ -1,6 +1,7 @@
 create database if not exists forestry default character set utf8;
 use forestry;
 
+-- 后台管理用户表
 create table user ( 
   id int unsigned not null primary key auto_increment, 
   username varchar(255) not null unique key,
@@ -9,35 +10,40 @@ create table user (
   salt varchar(40) not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理角色表
 create table role ( 
   id int unsigned not null primary key auto_increment,
   name varchar(255) not null,
   nameZh varchar(255) not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理用户、角色关联表
 create table user_role ( 
   id int unsigned not null primary key auto_increment,
   uid int not null,
   rid int not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理权限表
 create table permission ( 
   id int unsigned not null primary key auto_increment,
   module varchar(255) not null,
   description varchar(255) not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理权限、角色关联表
 create table permission_role ( 
   id int unsigned not null primary key auto_increment,
   pid int not null,
   rid int not null
 ) engine = InnoDB default charset = utf8;
 
-create table test_c (
-  id int,
-  name varchar(20)
-) engine = InnoDB default charset = utf8;
+-- create table test_c (
+--   id int,
+--   name varchar(20)
+-- ) engine = InnoDB default charset = utf8;
 
+-- 企业app用户表
 create table user_c (
   id int unsigned not null primary key auto_increment,
   username varchar(20) not null unique key,
@@ -52,18 +58,21 @@ create table user_c (
   last_modify_time timestamp not null default current_timestamp on update current_timestamp 
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app角色表
 create table role_c (
   id int unsigned not null primary key auto_increment,
   name varchar(255) not null,
   nameZh varchar(255) not null
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app角色、用户关联表
 create table user_role_c (
   id int unsigned not null primary key auto_increment,
   uid int unsigned not null,
   rid int unsigned not null
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app企业信息表
 create table company_c (
   id int unsigned not null primary key auto_increment,
   name varchar(50) not null unique key,
@@ -98,18 +107,21 @@ create table company_c (
   last_modify_time timestamp not null default current_timestamp on update current_timestamp
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app企业信息、用户关联表
 create table company_user_c (
   id int unsigned not null primary key auto_increment,
   uid int unsigned not null,
   cid int unsigned not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理基本信息表
 create table basic (
   id int unsigned not null primary key auto_increment,
   name varchar(50) not null,
   info varchar(300) not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理文件管理表
 create table file (
   id int unsigned not null primary key auto_increment,
   name varchar(100) not null,
@@ -118,6 +130,7 @@ create table file (
   type varchar(20) not null
 ) engine = InnoDB default charset = utf8;
 
+-- 后台管理版本管理表
 create table version (
   id int unsigned not null primary key auto_increment,
   title varchar(100) not null,
@@ -129,6 +142,7 @@ create table version (
   url varchar(1000) 
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app原木类开证信息表
 create table wood_cert (
   id int unsigned not null primary key auto_increment,
   amount varchar(20) not null,
@@ -144,6 +158,7 @@ create table wood_cert (
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app板材类开证信息表
 create table board_cert (
   id int unsigned not null primary key auto_increment,
   amount varchar(20) not null,
@@ -159,6 +174,7 @@ create table board_cert (
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
+-- 企业app木材运输证信息表
 create table plant_cert (
   id int unsigned not null primary key auto_increment,
   producing_area varchar(100),
@@ -191,23 +207,16 @@ create table plant_cert (
   create_time timestamp not null default current_timestamp
 ) engine = InnoDB default charset = utf8;
 
-create table user_setting_c (
-  id int unsigned not null primary key auto_increment,
-  uid int unsigned not null,
-  notice tinyint(1) unsigned not null default 1
-) engine = InnoDB default charset = utf8;
-
 insert role_c (name, nameZh) values ('ROLE_admin', '管理员');
 insert role_c (name, nameZh) values ('ROLE_employee', '员工');
 
--- 未在阿里云上执行
-DELIMITER //
-create procedure delete_code_c()
-begin
-update user_c set code = null where TIME_TO_SEC(TIMEDIFF(NOW(), last_modify_time)) > 300 and code is not null;
-end
-//
-DELIMITER ;
+-- DELIMITER //
+-- create procedure delete_code_c()
+-- begin
+-- update user_c set code = null where TIME_TO_SEC(TIMEDIFF(NOW(), last_modify_time)) > 300 and code is not null;
+-- end
+-- //
+-- DELIMITER ;
 
-create event delete_code_event_c
-on schedule every 30 second starts NOW() on completion preserve do call delete_code_c();
+-- create event delete_code_event_c
+-- on schedule every 30 second starts NOW() on completion preserve do call delete_code_c();
