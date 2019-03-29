@@ -14,6 +14,7 @@ const commonDto = new CommonDto();
 
 require('./config/dbCfg');
 require('./config/redisCfg');
+require('./config/validateCfg');
 require('./config/logCfg');
 require('./rpc/testRpcService/index');
 

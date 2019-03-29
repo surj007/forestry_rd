@@ -6,7 +6,16 @@ const { isParamNull } = require('../util/index');
 const router = express.Router();
 const commonDto = new CommonDto();
 
-router.post('/testRpc', async function(req, res, next) {
+router.post('/testRpc', $validate({
+  query: {
+    age: ['required']
+  },
+  body: {
+    sex: ['notBlank'],
+    id: ['number'],
+    name: ['array']
+  }
+}), async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['data']);
   
   if(nullParam) {
