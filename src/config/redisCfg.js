@@ -1,13 +1,26 @@
+// redis能够自动重连
 const redis = require('redis');
-const client = redis.createClient();
 
-client.on('ready', (err) => {
-  if(err){        
+const redisClient = redis.createClient({
+  retry_strategy: (options) => {
+    if (options.error.code === 'ECONNREFUSED') { 
+      console.log('redis连接被拒绝');
+    }
+    // reconnect after 退避算法
+    return Math.max(options.attempt * 100, 3000);
+  }
+});
+
+redisClient.on('ready', (err) => {
+  if (err) {        
     console.log('connect redis err: ' + err);
-    
     return;
   }
   console.log('connect redis success');
 });
 
-global.redisClient = client;
+redisClient.on('error', (err) => {
+  console.log('redis err: ' + err);
+});
+
+global.redisClient = redisClient;
