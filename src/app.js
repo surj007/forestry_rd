@@ -16,6 +16,7 @@ require('./config/dbCfg');
 require('./config/redisCfg');
 require('./config/validateCfg');
 require('./config/logCfg');
+
 require('./rpc/testRpcService/index');
 
 app.set('views', path.join(__dirname, 'views'));

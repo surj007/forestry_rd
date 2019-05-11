@@ -1,6 +1,4 @@
-global.rpc = {
-  testRpcService: {}
-};
+global.rpc = {};
 
 const http = require('http');
 
@@ -22,10 +20,12 @@ function onError(error) {
       console.error('port 80 requires elevated privileges');
       process.exit(1);
       break;
+
     case 'EADDRINUSE':
       console.error('port 80 is already in use');
       process.exit(1);
       break;
+
     default:
       throw error;
   }

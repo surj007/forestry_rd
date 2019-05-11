@@ -1,4 +1,4 @@
-create database if not exists forestry default character set utf8;
+create database if not exists forestry default character set utf8mb4;
 use forestry;
 
 -- 后台管理用户表

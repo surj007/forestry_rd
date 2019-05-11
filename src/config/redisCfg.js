@@ -1,7 +1,13 @@
-// redis能够自动重连
+// redis能够掉线自动重连
 const redis = require('redis');
 
 const redisClient = redis.createClient({
+  /*
+  host
+  port
+  url
+  password
+  */
   retry_strategy: (options) => {
     if (options.error.code === 'ECONNREFUSED') { 
       console.log('redis连接被拒绝');

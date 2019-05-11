@@ -1,4 +1,4 @@
-const thrift =require('thrift');
+const thrift = require('thrift');
 
 const rpcService = require('./TestRpcService');
 const rpcTypes = require('./TestRpcService_types');
@@ -8,24 +8,13 @@ function connectRpc () {
     transport : thrift.TBufferedTransport,
     protocol : thrift.TBinaryProtocol
   });
-  const client = thrift.createClient(rpcService, connection);
-  
-  connection.on('error', function(e) {
-      console.log('testRpcService err: ' + e);
-      // setTimeout(connectRpc, 2000);
+
+  connection.on('error', function(err) {
+    console.log('testRpcService err: ' + err);
+    setTimeout(connectRpc, 2000);
   });
-  
-  global.rpc.testRpcService.console = (data) => {
-    return new Promise((resolve) => {
-      client.console(data, (err, res) => {
-        console.log(res);
-        resolve({
-          err,
-          result: res
-        });
-      });
-    });
-  };
+
+  global.rpc.testRpcClient = thrift.createClient(rpcService, connection);
 }
 
 connectRpc();
