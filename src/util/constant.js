@@ -8,8 +8,8 @@ exports.CODE_SERVERERR = 6;
 exports.CODE_DUPLICATE = 7;
 exports.CODE_CHANGEPWDERR = 10;
 
-exports.KEY_ACCESSKEYID = 'LTAIUR8UPrDx2ABa';
-exports.KEY_SECRETACCESSKEY = 'gEpafGvrP0uaLwNSH1LZhloIpNgTcv';
+exports.KEY_ACCESSKEYID = 'xxx';
+exports.KEY_SECRETACCESSKEY = 'xxx';
 
 exports.OSS_BUCKET = 'forestry-bureau';
 exports.OSS_REGION = 'oss-cn-shanghai';
