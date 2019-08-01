@@ -31,6 +31,7 @@ exports.permissionAuth = async function(req, res, next) {
     }
 
     let hasPermission = await permissionAuthService.permissionAuth(req.session.userInfo.role, module);
+    
     if(hasPermission) {
       next();
     }

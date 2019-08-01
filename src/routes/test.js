@@ -1,12 +1,12 @@
 const express = require('express');
 
 const CommonDto = require('../dto/commonDto.class');
-const { isParamNull } = require('../util/index');
+const testRpcReq = require('../api/rpc/testRpcReq');
 
 const router = express.Router();
 const commonDto = new CommonDto();
 
-router.post('/testRpc', $validate({
+router.post('/testRpc', validate({
   query: {
     age: ['required']
   },
@@ -15,16 +15,9 @@ router.post('/testRpc', $validate({
     id: ['number'],
     name: ['array']
   }
-}), async function(req, res, next) {
-  let nullParam = isParamNull(req, 'body', ['data']);
-  
-  if(nullParam) {
-    res.json(commonDto.isNullRespond(nullParam));
-  }
-  else {
-    let { err, result } = await rpc.testRpcService.console(req.body.data);
-    res.json(commonDto.dbRespond(err, result, 'ok'));
-  }
+}), async function(req, res) {
+  let { err, result } = await testRpcReq.console(req.body.data);
+  res.json(commonDto.dbRespond(err, result, 'ok'));
 });
 
 module.exports = router;

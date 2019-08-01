@@ -10,7 +10,8 @@ const redisClient = redis.createClient({
   */
   retry_strategy: (options) => {
     if (options.error.code === 'ECONNREFUSED') { 
-      console.log('redis连接被拒绝');
+      console.error('redis连接被拒绝');
+      logger.error('redis连接被拒绝');
     }
     // reconnect after 退避算法
     return Math.max(options.attempt * 100, 3000);

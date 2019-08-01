@@ -8,9 +8,8 @@ const httpServer = http.createServer(app).listen(80, () => {
   console.log('http server start, listen 80...');
   logger.info('http server start, listen 80...');
 });
-httpServer.on('error', onError);
 
-function onError(error) {
+httpServer.on('error', (error) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -29,8 +28,9 @@ function onError(error) {
     default:
       throw error;
   }
-}
+});
 
 process.on('uncaughtException', (err) => {
+  console.error('http server start, listen 80...');
   logger.error('uncaughtException: ' + err);
 });

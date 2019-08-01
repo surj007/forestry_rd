@@ -84,6 +84,8 @@ router.post('/editUser', async function(req, res, next) {
   }
 });
 
+// 修改用户角色时，应该同时修改此用户session中对应角色
+// 登陆时在redis中存value-key格式的，这样就能找到此用户对应的session进行更改
 router.post('/editRole4User', async function(req, res, next) {
   let nullParam = isParamNull(req, 'body', ['uid', 'rid']);
 
