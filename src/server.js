@@ -31,6 +31,6 @@ httpServer.on('error', (error) => {
 });
 
 process.on('uncaughtException', (err) => {
-  console.error('http server start, listen 80...');
+  console.error('uncaughtException: ' + err);
   logger.error('uncaughtException: ' + err);
 });

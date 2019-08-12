@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=dev node ./src/server.js",
-    "prod": "NODE_ENV=prod node ./src/server.js"
+    "prod": "cross-env NODE_ENV=prod node ./src/server.js",
+    "test": "mocha ./test/index.test.js --exit",
+    "cover": "nyc mocha ./test/index.test.js --exit"
   },
   "dependencies": {
     "@alicloud/sms-sdk": "^1.1.6",
     "ali-oss": "^6.1.0",
+    "axios": "^0.19.0",
     "connect-redis": "^3.4.0",
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.2.0",
@@ -22,5 +25,13 @@
     "redis": "^2.8.0",
     "thrift": "^0.11.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.2.0",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.1"
   }
 }
