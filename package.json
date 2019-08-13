@@ -6,7 +6,8 @@
     "dev": "cross-env NODE_ENV=dev node ./src/server.js",
     "prod": "cross-env NODE_ENV=prod node ./src/server.js",
     "test": "mocha ./test/index.test.js --exit",
-    "cover": "nyc mocha ./test/index.test.js --exit"
+    "cover": "nyc mocha ./test/index.test.js --exit",
+    "benchmark": "node ./test/benchmark.test.js --exit"
   },
   "dependencies": {
     "@alicloud/sms-sdk": "^1.1.6",
@@ -27,11 +28,11 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "benchmark": "^2.1.4",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "mocha": "^6.2.0",
     "nyc": "^14.1.1",
-    "sinon": "^7.4.1"
+    "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0"
   }
 }
