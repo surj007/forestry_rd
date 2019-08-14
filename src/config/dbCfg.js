@@ -37,18 +37,37 @@
 const mysql  = require('mysql');
 
 const envConfig = require('./envCfg');
+// 也可以在一开始创建好不同库的连接
+let poolListObj = {
+  forestry: mysql.createPool({
+    host: envConfig.dbHost,
+    user: envConfig.dbUser,
+    password: envConfig.dbPassword,
+    port: '3306',
+    database: 'forestry'
+  })
+};
+// const pool = mysql.createPool({
+//   host: envConfig.dbHost,
+//   user: envConfig.dbUser,
+//   password: envConfig.dbPassword,
+//   port: '3306',
+//   database: 'forestry'
+// });
 
-const pool = mysql.createPool({
-  host: envConfig.dbHost,
-  user: envConfig.dbUser,
-  password: envConfig.dbPassword,
-  port: '3306',
-  database: 'forestry'
-});
+function query (sql, params, dbName = 'forestry') {
+  if (poolListObj[dbName] === undefined) {
+    poolListObj[dbName] = mysql.createPool({
+      host: envConfig.dbHost,
+      user: envConfig.dbUser,
+      password: envConfig.dbPassword,
+      port: '3306',
+      database: dbName
+    })
+  }
 
-function query (sql, params) {
   return new Promise((resolve) => {
-    pool.getConnection((err, connection) => {
+    poolListObj[dbName].getConnection((err, connection) => {
       if (err) {
         logger.error('get mysql connection err: ' + err);
         resolve({
