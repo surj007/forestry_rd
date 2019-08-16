@@ -33,7 +33,16 @@ app.use(expressSession({
   store: new redisStore({ client: redisClient }),
 }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+// http重定向到https
+// app.all('*', (req, res) => {
+//   let host = req.headers.host;
+//   // Remove port number
+//   host = host.replace(/\:\d+$/, '');
+//   // 307 内部重定向
+//   res.redirect(307, `https://${host}${req.path}`);
+// });
 
 app.use(permissionAuth);
 app.use(setRequestId);

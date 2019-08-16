@@ -60,34 +60,39 @@ const testDto = require('./testDto/index.js');
 let cookie = null;
 let dbStub = null;
 
+const BasicService = require('../src/service/basicService.class');
+const BasicModel = require('../src/model/basicModel.class');
+const basicService = new BasicService();
+const basicModel = new BasicModel();
+
 // 测试块
 describe('test http server', () => {
   // 在本测试块所有测试用例执行之前执行
-  before(() => {
-    // 不打印log
-    global.console.log = () => {};
+  // before(() => {
+  //   // 不打印log
+  //   global.console.log = () => {};
 
-    // start server
-    app.listen(80);
+  //   // start server
+  //   app.listen(80);
 
-    // test login and record cookie
-    return testApi.login().then(res => {
-      expect(res.data).to.be.deep.equal(testDto.login);
-      cookie = res.headers['set-cookie'][0];
+  //   // test login and record cookie
+  //   return testApi.login().then(res => {
+  //     expect(res.data).to.be.deep.equal(testDto.login);
+  //     cookie = res.headers['set-cookie'][0];
 
-      // 数据库查询打桩
-      dbStub = sinon.stub(global.db, 'query');
-      dbStub.withArgs('select * from basic where name like ?', [ '%企业类型%' ]).returns(Promise.resolve({
-        err: null,
-        results: [{
-          id: 1, 
-          name: '企业类型', 
-          info: '木材加工,木材销售'
-        }],
-        fields: null
-      }));
-    });
-  });
+  //     // 数据库查询打桩
+  //     dbStub = sinon.stub(global.db, 'query');
+  //     dbStub.withArgs('select * from basic where name like ?', [ '%企业类型%' ]).returns(Promise.resolve({
+  //       err: null,
+  //       results: [{
+  //         id: 1, 
+  //         name: '企业类型', 
+  //         info: '木材加工,木材销售'
+  //       }],
+  //       fields: null
+  //     }));
+  //   });
+  // });
   // 在本测试块所有测试用例执行之后执行
   after(() => {});
   // 在本测试块每个测试用例之前执行
@@ -97,17 +102,38 @@ describe('test http server', () => {
 
   describe('basic', () => {
     // 测试用例
-    it('getBasicInfo', function () {
-      this.timeout(3000); 
+    // chai-as-promised写法
+    // it('getBasicInfo', function () {
+    //   this.timeout(3000); 
 
-      return testApi.getBasicInfo(cookie).then(res => res.data).should.eventually.deep.equal(testDto.getBasicInfo);
-    });
-    // sync
+    //   return testApi.getBasicInfo(cookie).then(res => res.data).should.eventually.deep.equal(testDto.getBasicInfo);
+    // });
+
+    // chai写法，异步断言
     // it('getBasicInfo', function (done) { 
     //   testApi.getBasicInfo(cookie).then(res => {
     //     expect(res.data).to.be.deep.equal(testDto.getBasicInfo);
     //     done();
     //   });
     // });
+  });
+
+  // 开发时，随时测试service和model
+  describe('dev test', () => {
+    it('test service', async () => {
+      let result = await basicService.getBasicInfo('企业类型');
+
+      console.log(JSON.stringify(result));
+
+      return true;
+    });
+
+    it('test model', async () => {
+      let result = await basicModel.getBasicInfo('企业类型');
+
+      console.log(JSON.stringify(result));
+
+      return true;
+    });
   });
 });
