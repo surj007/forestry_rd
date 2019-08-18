@@ -27,9 +27,21 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(expressSession({
   secret: 'secret',
-  cookie: { maxAge: 24 * 60 * 60 * 1000 },
-  resave: false, //每次访问以后，session的过期时间是否往后推迟，现在改成在后面的中间件中推迟过期时间
-  saveUninitialized: false, //无论有没有session cookie，每次请求都设置个session cookie，默认给个标示为connect.sid，一定是false
+  cookie: {
+    // 在这块可以设置cookie的相关属性，如domain、httponly等
+    // store中存储数据会根据这个时间自动进行老化 
+    maxAge: 24 * 60 * 60 * 1000
+  },
+  // 手动生成sessionid
+  // genid: function (req) {
+  //   return genuuid();
+  // },
+  // cookie名称，默认为connect.sid
+  // name: 'connect.sid',
+  // 每次访问以后，session的过期时间是否往后推迟，现在改成在后面的中间件中推迟过期时间
+  resave: false,
+  // 无论有没有session cookie，每次请求都设置个session cookie，默认给个标示为connect.sid，一定是false
+  saveUninitialized: false,
   store: new redisStore({ client: redisClient }),
 }));
 
@@ -44,6 +56,8 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 //   res.redirect(307, `https://${host}${req.path}`);
 // });
 
+// 加了这个以后没法显示404。可以考虑在每个接口中进行校验，或者需要把所有路径注册下，没找到返回404
+// 没有进入app.get的请求不会发给cookie
 app.use(permissionAuth);
 app.use(setRequestId);
 // 用于更新浏览器cookie过期时间
@@ -62,19 +76,25 @@ app.use((req, res, next) => {
 require('./routes')(app);
 
 app.use((req, res, next) => {
+  // 所有没有被上述路由捕获的请求，会走到这个中间件，向下面的中间件传一个404
   // 有这个中间件才能抛出错误，下面的中间件才能接到
   next(createError(404));
 });
+// 也可以直接这样
+// app.use(function (req, res, next) {
+//   res.status(404).send("Sorry can't find that!");
+// });
 
+// 捕获所有错误
 app.use((err, req, res, next) => {
-  if(err.name == 'NotFoundError') {
+  if(err.name === 'NotFoundError') {
     res.status(404).json(commonDto.serverErrRespond(err));
   }
   else {
+    logger.error(err);
+    
     res.status(500).json(commonDto.serverErrRespond(err));
   }
-  
-  logger.error(err);
 });
 
 module.exports = app;

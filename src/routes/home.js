@@ -9,6 +9,7 @@ const homeService = new HomeService();
 
 router.get('/getDashboardData', async (req, res, next) => {
   let { err, results } = await homeService.getDashboardData();
+  
   res.json(commonDto.dbRespond(err, results));
 });
 

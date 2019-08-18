@@ -4,6 +4,7 @@ const AuthDto = require('../dto/authDto.class');
 const permissionAuthService = new PermissionAuthService();
 const authDto = new AuthDto();
 
+// 不需要校验的接口，使用完以后，应该检查req.session.userInfo是否存在，不存在要调用req.session.destroy()，防止恶意调用，撑爆redis
 let ignoreModule = ['menu', 'oss', 'test'];
 let ignorePath = [
   '/system/basic/getBasicInfo', 

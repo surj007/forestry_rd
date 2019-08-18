@@ -1,3 +1,5 @@
+// 也可以使用express-validator校验
+
 function required (data, field) {
   if (data !== '' && !data) {
     return `缺少${field}字段`;
