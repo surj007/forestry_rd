@@ -62,8 +62,11 @@ app.use(permissionAuth);
 app.use(setRequestId);
 // 用于更新浏览器cookie过期时间
 app.use((req, res, next) => {
-  req.session._garbage = Date();
-  req.session.touch();
+  if (req.session.userInfo) {
+    req.session._garbage = Date();
+    req.session.touch();
+  }
+
   next();
 });
 app.use((req, res, next) => {

@@ -1,4 +1,4 @@
-// 也可以使用express-validator校验
+// 也可以使用express-validator、const Joi = require('@hapi/joi');校验
 
 function required (data, field) {
   if (data !== '' && !data) {
