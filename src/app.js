@@ -56,7 +56,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 //   res.redirect(307, `https://${host}${req.path}`);
 // });
 
-// 加了这个以后没法显示404。可以考虑在每个接口中进行校验，或者需要把所有路径注册下，没找到返回404
+// 加了这个以后没法显示404。可以考虑在每个接口中进行权限校验（现在是统一中间件校验），或者需要把所有路径注册下，没找到返回404
 // 没有进入app.get的请求不会发给cookie
 app.use(permissionAuth);
 app.use(setRequestId);
