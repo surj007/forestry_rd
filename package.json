@@ -12,7 +12,7 @@
   "dependencies": {
     "@alicloud/sms-sdk": "^1.1.6",
     "ali-oss": "^6.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "connect-redis": "^3.4.0",
     "cookie-parser": "~1.4.3",
     "cross-env": "^5.2.0",
