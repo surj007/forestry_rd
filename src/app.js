@@ -56,9 +56,27 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 //   res.redirect(307, `https://${host}${req.path}`);
 // });
 
-// 加了这个以后没法显示404。
-// 可以考虑在每个接口（或者每个子路由中加小中间件）中进行权限校验（现在是统一中间件校验）
-// 或者需要把所有路径注册下，没找到返回404
+/*
+  加了这个以后没法显示404。
+  可以考虑在每个接口（或者每个子路由中加小中间件）中进行权限校验（现在是统一中间件校验）：{
+    function permissionAuth(needPermission) {
+      return function (req, res, next) {
+        if (req.session.permission.includes(needPermission)) { next(); }
+        else {
+          res.statue(403);
+        }
+      }
+    }
+
+    router.post(
+      '/login',
+      permissionAuth('flow_template_w')
+      async (req, res, next) => { }
+    );
+  }
+  或者需要把所有路径注册下，前置中间件没找到返回404
+*/
+// 除了这种统一根据url中的模块校验权限以外，还可以将每个url对应的权限进行注册，在一个中间进行校验
 // 没有进入app.get的请求不会发给cookie
 app.use(permissionAuth);
 app.use(setRequestId);

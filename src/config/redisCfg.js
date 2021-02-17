@@ -3,12 +3,12 @@ const redis = require('redis');
 
 const redisClient = redis.createClient({
   /*
-  host
-  port
-  url
-  password
+    host
+    port
+    url
+    password
   */
-  retry_strategy: (options) => {
+  retry_strategy(options) {
     if (options.error.code === 'ECONNREFUSED') { 
       console.error('redis连接被拒绝');
       logger.error('redis连接被拒绝');
@@ -21,9 +21,10 @@ const redisClient = redis.createClient({
 redisClient.on('ready', (err) => {
   if (err) {        
     console.log('connect redis err: ' + err);
-    return;
   }
-  console.log('connect redis success');
+  else {
+    console.log('connect redis success');
+  }
 });
 
 redisClient.on('error', (err) => {
@@ -31,3 +32,11 @@ redisClient.on('error', (err) => {
 });
 
 global.redisClient = redisClient;
+
+/*
+  promise化：
+  const { promisify } = require("util");
+  const getAsync = promisify(redisClient.get).bind(redisClient);
+
+  getAsync.then(console.log).catch(console.error);
+*/
