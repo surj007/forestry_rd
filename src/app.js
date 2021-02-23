@@ -38,7 +38,7 @@ app.use(expressSession({
   // },
   // cookie名称，默认为connect.sid
   // name: 'connect.sid',
-  // 每次访问以后，session的过期时间是否往后推迟，现在改成在后面的中间件中推迟过期时间
+  // 每次访问以后，session的过期时间是否往后推迟，不知道为什么这不好使，现在改成在后面的中间件中推迟过期时间
   resave: false,
   // 无论有没有session cookie，每次请求都设置个session cookie，默认给个标示为connect.sid，一定是false
   saveUninitialized: false,
